@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - MoNo-Electro</title>
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background: #0d0d0d;
+            color: #e0e0e0;
+        }
+
+        nav{
+            height: 75px;
+            width: 100%;
+            background: rgba(17, 17, 17, 0.226);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            z-index: 999;
+            border-bottom: 1px solid #222;
+        }
+
+        nav h1{
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            font-size: 34px;
+            padding: 10px 15px;
+            cursor: context-menu;
+            letter-spacing: 2px;
+        }
+
+        .menu{
+            padding: 20px 30px;
+            gap: 10px;
+            position: relative;
+        }
+
+        .menu a{
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 10px 20px;
+            font-size: 19px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .menu a:hover{
+            color: #fff;
+        }
+
+        .menu a::after{
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: white;
+            left: 50%;
+            bottom: 5px;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .menu a:hover::after{
+            width: 60%;
+        }
+
+        .menu a.active::after{
+            width: 60%;
+        }
+
+        .menu p{
+            display: none;
+        }
+
+        /* Mobile Dropdown Menu */
+
+        .mobile-menu{
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 20px;
+            background: #1a1a1a;
+            width: 200px;
+            border-radius: 10px;
+            padding: 15px 0;
+            flex-direction: column;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+
+        .mobile-menu a{
+            padding: 12px 20px;
+            display: block !important;
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 19px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .mobile-menu a:hover{
+            color: #fff;
+        }
+
+        /* ===== CONTACT PAGE SECTIONS ===== */
+        
+        /* Hero Section */
+        .contact-hero{
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 400px;
+            width: 100%;
+            padding-top: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .contact-hero h2{
+            color: white;
+            font-size: 48px;
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px black;
+            cursor: context-menu;
+        }
+
+        .contact-hero h2 span{
+            font-family: cursive;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+            background:transparent;
+            font-style: italic;
+            padding: 1px 12px;
+            background-color: black;
+            border-radius: 20%;
+            box-shadow: 1px 1px 5px white;
+        }
+
+        .contact-hero p{
+            color: #ccc;
+            font-size: 18px;
+            margin-top: 10px;
+            line-height: 25px;
+        }
+
+        .section-padding{
+            padding: 80px 5%;
+        }
+
+        .section-title{
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 50px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            letter-spacing: 1px;
+            cursor: context-menu;
+        }
+
+        .section-title span{
+            font-family: cursive;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+            background:transparent;
+            font-style: italic;
+            padding: 5px 12px;
+            background-color: black;
+            border-radius: 20%;
+            box-shadow: 1px 1px 5px white;
+        }
+
+        /* Contact Info + Form */
+
+        .contact-grid{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info{
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .info-card, .hours-card, .faq-item, .map-box{
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .info-card:hover, .hours-card:hover, .faq-item:hover, .map-box:hover{
+            border: 2px solid white;
+            box-shadow: 0px 0px 7px white;
+        }
+
+        .info-card h3{
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .info-card p{
+            font-size: 17px;
+            color: #aaa;
+        }
+
+        .info-card a{
+            color: #ddd;
+            text-decoration: none;
+        }
+
+        /* Form */
+
+        .contact-form{
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #333;
+        }
+
+        .contact-form input,
+        .contact-form textarea{
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: #0d0d0d;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus{
+            border: 2px solid white;
+        }
+
+        .btn-group{
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .send-btn, .whatsapp-btn{
+            height: 50px;
+            padding: 0 30px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background: transparent;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover{
+            background: #fff;
+            color: #000;
+        }
+
+        .whatsapp-btn{
+            border-color: #25D366;
+            color: white;
+        }
+
+        .whatsapp-btn:hover{
+            background: #25D366;
+            color: #000;
+        }
+
+        /* Map Section */
+
+        .map-section{
+            background: #121212;
+        }
+
+        .map-box{
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #333;
+            padding: 0;
+            filter: grayscale(80%) brightness(0.6);
+        }
+
+        .map-box:hover{
+            filter: grayscale(0%) brightness(1);
+        }
+
+        .map-box iframe{
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+        }
+
+        /* Hours Section */
+
+        .hours-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .hours-card{
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        .hours-card h3{
+            color: #fff;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .hours-card p{
+            color: #aaa;
+            font-size: 17px;
+        }
+
+        /* FAQ */
+
+        .faq-item{
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+        }
+
+        .faq-item h4{
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .faq-item p{
+            color: #aaa;
+            line-height: 24px;
+        }
+
+        /* CTA */
+
+        .cta{
+            background: #121212;
+            text-align: center;
+        }
+
+        .call-btn{
+            height: 60px;
+            padding: 0 40px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 21px;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            color: white;
+        }
+
+        .call-btn:hover{
+            background: #fff;
+            color: #000;
+        }
+
+        /* Footer */
+
+        footer{
+            background: #000;
+            color: #888;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 16px;
+            border-top: 1px solid #222;
+        }
+
+        /* Mobile responsive */
+
+        @media (max-width: 991px) {
+            nav h1{
+                font-size: 28px;
+            }
+            .contact-grid{
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu a{ display: none; }
+            .menu p{ display: inline; color: white; font-size: 28px; cursor: pointer; }
+            .contact-hero h2{ font-size: 32px; }
+            .section-padding{ padding: 60px 5%; }
+            .section-title{ font-size: 30px; }
+            .btn-group{ flex-direction: column; }
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <nav>
+
+        <h1>MoNo-Electro</h1>
+            <div class="menu">
+
+                <a href="index.html">Home</a>
+                <a href="Shop.html">Shop</a>
+                <a href="our-story.html">Our-Story</a>
+                <a href="contact.html" class="active">Contact-Us</a>
+                <p onclick="toggleMenu()">☰</p>
+
+                <div class="mobile-menu" id="mobileMenu">
+                    <a href="index.html">Home</a>
+                    <a href="Shop.html">Shop</a>
+                    <a href="our-story.html">Our-Story</a>
+                    <a href="contact.html" class="active">Contact-Us</a>
+                </div>
+
+            </div>
+
+    </nav>
+
+    <!-- SECTION 1: CONTACT HERO -->
+
+    <section class="contact-hero">
+
+        <div>
+            <h2>Get In <span>Touch</span></h2>
+            <p>We are here to help you. Visit our showroom or contact us directly</p>
+        </div>
+
+    </section>
+
+    <!-- SECTION 2: CONTACT INFO + FORM -->
+
+    <section class="section-padding">
+
+        <h2 class="section-title">Contact <span>Us</span></h2>
+        <div class="contact-grid">
+            
+            <!-- Left: Info -->
+
+            <div class="contact-info">
+
+                <div class="info-card">
+                    <h3>Call Us</h3>
+                    <p><a href="tel:03362745736">0316-2819626</a></p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Email Us</h3>
+                    <p><a href="mailto:monoelectroofficialpk@gmail.com">monoelectroofficialpk@gmail.com</a></p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Visit Us</h3>
+                    <p>Shop 12, Nazimabad No.3, Karachi, Pakistan</p>
+                </div>
+
+            </div>
+
+            <!-- Right: Form -->
+
+            <div class="contact-form">
+
+                <form onsubmit="showAlert(event)">
+
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="number" placeholder="03XX-XXXXXXX" required>
+                    <input type="email" placeholder="Your Email">
+                    <textarea rows="5" placeholder="Your Message" required></textarea>
+
+                    <div class="btn-group">
+                        <button type="submit" class="send-btn">Send Message</button>
+                        <a href="https://wa.me/923162819626" target="_blank" class="whatsapp-btn">Chat on WhatsApp</a>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 3: MAP -->
+
+    <section class="section-padding map-section">
+
+        <h2 class="section-title">Find Us On <span>Map</span></h2>
+
+        <div class="map-box">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.5!2d67.01!3d24.93!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDU1JzQ4LjAiTiA2N8KwMDAnMzYuMCJF!5e0!3m2!1sen!2s!4v123456789" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <p style="text-align:center; margin-top:15px; color:#aaa;">Shop 12, Nazimabad No.3, Karachi</p>
+
+    </section>
+
+    <!-- SECTION 4: BUSINESS HOURS -->
+
+    <section class="section-padding">
+
+        <h2 class="section-title">Business <span>Hours</span></h2>
+        <div class="hours-grid">
+
+            <div class="hours-card">
+                <h3>Monday - Thursday</h3>
+                <p>10:00 AM - 10:00 PM</p>
+            </div>
+
+            <div class="hours-card">
+                <h3>Friday</h3>
+                <p>4:00 PM - 10:00 PM</p>
+            </div>
+
+            <div class="hours-card">
+                <h3>Saturday - Sunday</h3>
+                <p>10:00 AM - 10:00 PM</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 5: FAQ -->
+
+    <section class="section-padding" style="background:#121212;">
+
+        <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+        <div class="faq-item">
+            <h4>Do you offer installments?</h4>
+            <p>Yes, we offer 0% markup on 6 to 12 month easy installments.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Do you deliver outside Karachi?</h4>
+            <p>Currently we provide free home delivery only within Karachi.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Is warranty included?</h4>
+            <p>Yes, 1 year official brand warranty on all products.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Can I exchange my old product?</h4>
+            <p>Yes, visit our showroom for product evaluation and exchange offer.</p>
+        </div>
+
+    </section>
+
+    <!-- SECTION 6: CTA -->
+
+    <section class="section-padding cta">
+
+        <h2 class="section-title">Have Questions? <span>Call Us Now</span></h2>
+        <a href="tel:03162819626"><button class="call-btn">Call Now</button></a>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>© 2026 MoNo-Electro. All Rights Reserved. | Karachi, Pakistan</p>
+    </footer>
+
+    <!-- JS Menu Toggle -->
+
+    <script>
+
+        function toggleMenu(){
+
+            let menu = document.getElementById("mobileMenu");
+
+            if(menu.style.display === "flex"){
+                menu.style.display = "none";
+
+            } else {
+                menu.style.display = "flex";
+            }
+
+        }
+
+        function showAlert(event){
+            event.preventDefault();
+            alert("Your message sent successfully!");
+            event.target.reset();
+        }
+
+    </script>
+    
+</body>
+</html>

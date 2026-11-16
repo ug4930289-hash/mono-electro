@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - MoNo-Electro</title>
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background: #0d0d0d;
+            color: #e0e0e0;
+        }
+
+        nav{
+            height: 75px;
+            width: 100%;
+            background: rgba(17, 17, 17, 0.226);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            z-index: 999;
+            border-bottom: 1px solid #222;
+        }
+
+        nav h1{
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            font-size: 34px;
+            padding: 10px 15px;
+            cursor: context-menu;
+            letter-spacing: 2px;
+        }
+
+        .menu{
+            padding: 20px 30px;
+            gap: 10px;
+            position: relative;
+        }
+
+        .menu a{
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 10px 20px;
+            font-size: 19px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .menu a:hover{
+            color: #fff;
+        }
+
+        .menu a::after{
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: white;
+            left: 50%;
+            bottom: 5px;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .menu a:hover::after{
+            width: 60%;
+        }
+
+        .menu a.active::after{
+            width: 60%;
+        }
+
+        .menu p{
+            display: none;
+        }
+
+            /* Mobile Dropdown Menu */
+
+        .mobile-menu{
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 20px;
+            background: #1a1a1a;
+            width: 200px;
+            border-radius: 10px;
+            padding: 15px 0;
+            flex-direction: column;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+
+        .mobile-menu a{
+            padding: 12px 20px;
+            display: block !important;
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 19px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .mobile-menu a:hover{
+            color: #fff;
+        }
+
+        /* ===== SHOP PAGE SECTIONS ===== */
+        
+        /* Hero Section */
+        .shop-hero{
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(https://images.unsplash.com/photo-1555529669-e69e7aa0ba9d?w=1200);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 400px;
+            width: 100%;
+            padding-top: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .shop-hero h2{
+            color: white;
+            font-size: 48px;
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px black;
+            cursor: context-menu;
+        }
+
+        .shop-hero h2 span{
+            font-family: cursive;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+            background:transparent;
+            font-style: italic;
+            padding: 1px 12px;
+            background-color: black;
+            border-radius: 20%;
+            box-shadow: 1px 1px 5px white;
+        }
+
+        .shop-hero p{
+            color: #ccc;
+            font-size: 18px;
+            margin-top: 10px;
+            line-height: 25px;
+        }
+
+        .section-padding{
+            padding: 80px 5%;
+        }
+
+        .section-title{
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 50px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            letter-spacing: 1px;
+            cursor: context-menu;
+        }
+
+        .section-title span{
+            font-family: cursive;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+            background:transparent;
+            font-style: italic;
+            padding: 5px 12px;
+            background-color: black;
+            border-radius: 20%;
+            box-shadow: 1px 1px 5px white;
+        }
+
+        /* FILTER BUTTONS */
+
+        .filter-btns{
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .filter-btn{
+            background: transparent;
+            border: 2px solid #333;
+            color: #ccc;
+            padding: 12px 25px;
+            margin: 0 8px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active{
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        /* Products Grid */
+
+        .products-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card{
+            background: #1a1a1a;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            border: 1px solid #333;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card:hover{
+            transform: translateY(-8px);
+            border: 2px solid white;
+            box-shadow: 0px 0px 7px white;
+        }
+
+        /* SALE BADGE */
+        
+        .sale-badge{
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff0040;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-card img{
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info{
+            padding: 20px;
+        }
+
+        .product-info h3{
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .product-info .price{
+            color: #00ff88;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-info .old-price{
+            text-decoration: line-through;
+            color: #777;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .Visit-btn{
+            height: 50px;
+            width: 160px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            margin-top: 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .Visit-btn:hover{
+            background: #fff;
+        }
+
+        .Visit-btn:hover a{
+            color: #000;
+        }
+
+        .Visit-btn a{
+            color: white;
+            text-decoration: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        /* Footer */
+
+        footer{
+            background: #000;
+            color: #888;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 16px;
+            border-top: 1px solid #222;
+        }
+
+        /* Mobile responsive */
+
+        @media (max-width: 991px) {
+            nav h1{
+                font-size: 28px;
+            }
+            .menu{
+                padding: 10px 15px;
+            }
+            .shop-hero h2{
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu a{
+                display: none;
+            }
+            .menu p{
+                display: inline;
+                color: white;
+                font-size: 28px;
+                cursor: pointer;
+            }
+            .shop-hero{
+                height: 350px;
+            }
+            .shop-hero h2{
+                font-size: 32px;
+            }
+            .section-padding{
+                padding: 60px 5%;
+            }
+            .section-title{
+                font-size: 30px;
+            }
+            .filter-btn{
+                padding: 10px 18px;
+                margin: 5px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <nav>
+        <h1>MoNo-Electro</h1>
+            <div class="menu">
+                <a href="index.html">Home</a>
+                <a href="Shop.html" class="active">Shop</a>
+                <a href="our-story.html">Our-Story</a>
+                <a href="contact.html">Contact-Us</a>
+                <p onclick="toggleMenu()">☰</p>
+
+                <div class="mobile-menu" id="mobileMenu">
+                    <a href="index.html">Home</a>
+                    <a href="Shop.html" class="active">Shop</a>
+                    <a href="our-story.html">Our-Story</a>
+                    <a href="contact.html">Contact-Us</a>
+                </div>
+            </div>
+    </nav>
+
+    <!-- SECTION 1: SHOP HERO -->
+
+    <section class="shop-hero">
+
+        <div>
+            <h2>Our <span>Premium</span> Collection</h2>
+            <p>Latest Electronics with Easy Installments in Karachi</p>
+        </div>
+
+    </section>
+
+    <!-- SECTION 2: ALL PRODUCTS -->
+
+    <section class="section-padding">
+        <h2 class="section-title">All <span>Products</span></h2>
+
+        <!-- FILTER BUTTONS -->
+
+        <div class="filter-btns">
+            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+            <button class="filter-btn" onclick="filterProducts('mobile')">Mobiles</button>
+            <button class="filter-btn" onclick="filterProducts('ac')">ACs</button>
+            <button class="filter-btn" onclick="filterProducts('fridge')">Fridges</button>
+            <button class="filter-btn" onclick="filterProducts('tv')">TVs</button>
+        </div>
+
+        <div class="products-grid" id="productGrid">
+
+            <!-- 1 -->
+            <div class="product-card" data-category="ac">
+                <span class="sale-badge">SALE</span>
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500" alt="AC">
+                <div class="product-info">
+                    <h3>Haier 1.5 Ton DC Inverter AC</h3>
+                    <p class="price">Rs. 185,000 <span class="old-price">Rs. 200,000</span></p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="product-card" data-category="fridge">
+                <img src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=500" alt="Fridge">
+                <div class="product-info">
+                    <h3>Dawlance 14 Cubic Double Door</h3>
+                    <p class="price">Rs. 145,000 <span class="old-price">Rs. 160,000</span></p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="product-card" data-category="mobile">
+                <span class="sale-badge">SALE</span>
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500" alt="Mobile">
+                <div class="product-info">
+                    <h3>Samsung Galaxy S24 Ultra</h3>
+                    <p class="price">Rs. 420,000 <span class="old-price">Rs. 450,000</span></p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="product-card" data-category="tv">
+                <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500" alt="TV">
+                <div class="product-info">
+                    <h3>LG 55 Inch 4K OLED TV</h3>
+                    <p class="price">Rs. 310,000</p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="product-card" data-category="ac">
+                <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=500" alt="AC">
+                <div class="product-info">
+                    <h3>Gree 1 Ton Inverter AC</h3>
+                    <p class="price">Rs. 155,000</p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="product-card" data-category="mobile">
+                <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=500" alt="Mobile">
+                <div class="product-info">
+                    <h3>iPhone 15 Pro Max 256GB</h3>
+                    <p class="price">Rs. 580,000</p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="product-card" data-category="fridge">
+                <span class="sale-badge">SALE</span>
+                <img src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=500" alt="Fridge">
+                <div class="product-info">
+                    <h3>Haier 20 Cubic Side by Side</h3>
+                    <p class="price">Rs. 295,000 <span class="old-price">Rs. 320,000</span></p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="product-card" data-category="tv">
+                <img src="https://images.unsplash.com/photo-1567690187548-f07b1d7bf5a9?w=500" alt="TV">
+                <div class="product-info">
+                    <h3>Samsung 65 Inch QLED 4K</h3>
+                    <p class="price">Rs. 450,000</p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="product-card" data-category="mobile">
+                <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500" alt="Mobile">
+                <div class="product-info">
+                    <h3>Xiamo Redmi 14C</h3>
+                    <p class="price">Rs. 35,000</p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="product-card" data-category="ac">
+                <img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=500" alt="AC">
+                <div class="product-info">
+                    <h3>Dawlance 2 Ton Floor Standing AC</h3>
+                    <p class="price">Rs. 385,000</p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="product-card" data-category="fridge">
+                <img src="https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?w=500" alt="Fridge">
+                <div class="product-info">
+                    <h3>PEL 9 Cubic Single Door</h3>
+                    <p class="price">Rs. 85,000</p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="product-card" data-category="tv">
+                <span class="sale-badge">SALE</span>
+                <img src="https://images.unsplash.com/photo-1461151304267-38535e780c79?w=500" alt="TV">
+                <div class="product-info">
+                    <h3>TCL 43 Inch Smart LED TV</h3>
+                    <p class="price">Rs. 110,000 <span class="old-price">Rs. 125,000</span></p>
+                    <button class="Visit-btn"><a href="#">Buy Now</a></button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>© 2026 MoNo-Electro. All Rights Reserved. | Karachi, Pakistan</p>
+    </footer>
+
+    <!-- JS Menu Toggle + FILTER JS -->
+    <script>
+        function toggleMenu(){
+            let menu = document.getElementById("mobileMenu");
+            if(menu.style.display === "flex"){
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "flex";
+            }
+        }
+
+        // FILTER FUNCTION //
+
+        function filterProducts(category){
+            let cards = document.querySelectorAll('.product-card');
+            let btns = document.querySelectorAll('.filter-btn');
+
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                if(category === 'all' || card.getAttribute('data-category') === category){
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    
+</body>
+</html>

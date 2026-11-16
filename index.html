@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoNo-Electro</title>
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background: #0d0d0d;
+            color: #e0e0e0;
+        }
+
+        nav{
+            height: 75px;
+            width: 100%;
+            background: rgba(17, 17, 17, 0.226);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            z-index: 999;
+            border-bottom: 1px solid #222;
+        }
+
+        nav h1{
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            font-size: 34px;
+            padding: 10px 15px;
+            cursor: context-menu;
+            letter-spacing: 2px;
+        }
+
+        .menu{
+            padding: 20px 30px;
+            gap: 10px;
+            position: relative;
+        }
+
+        .menu a{
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 10px 20px;
+            font-size: 19px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .menu a:hover{
+            color: #fff;
+        }
+
+        .menu a::after{
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: white;
+            left: 50%;
+            bottom: 5px;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .menu a:hover::after{
+            width: 60%;
+        }
+
+        .menu a.active::after{
+            width: 60%;
+        }
+
+        .menu p{
+            display: none;
+        }
+
+        /* Mobile Dropdown Menu */
+
+        .mobile-menu{
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 20px;
+            background: #1a1a1a;
+            width: 200px;
+            border-radius: 10px;
+            padding: 15px 0;
+            flex-direction: column;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+
+        .mobile-menu a{
+            padding: 12px 20px;
+            display: block !important;
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 19px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .mobile-menu a:hover{
+            color: #fff;
+        }
+
+        /* hero-section */
+
+        .hero-sec{
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(hero-img.jpeg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 640px;
+            width: 100%;
+            padding-top: 75px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content h2{
+            color: white;
+            font-size: 52px;
+            font-family: Arial, Helvetica, sans-serif;
+            letter-spacing: 1.5px;
+            cursor: context-menu;
+            margin-bottom: 15px;
+            center-shadow: 0 0 20px black;
+        }
+
+        .hero-content p{
+            color: #ccc;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 300;
+            line-height: 30px;
+        }
+
+        .Visit-btn{
+            height: 60px;
+            width: 240px;
+            background-color: rgba(0, 0, 0, 0.589);
+            border: none;
+            border-radius: 20px;
+            margin-top: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .Visit-btn:hover{
+            background: transparent;
+            border: 2px solid;
+            border-radius: 20%;
+        }
+
+        .Visit-btn a{
+            color: white;
+            text-decoration: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        /* ===== HOME PAGE SECTIONS ===== */
+
+        .section-padding{
+            padding: 80px 5%;
+        }
+
+        .section-title{
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 50px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .section-title span{
+            font-family: cursive;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+            background:transparent;
+            font-style: italic;
+            padding: 7px 12px;
+            background-color: black;
+            border-radius: 20%;
+            box-shadow: 1px 1px 5px white;
+        }
+
+        .section-desc{
+            text-align: center;
+            font-size: 18px;
+            color: #aaa;
+            max-width: 700px;
+            margin: -30px auto 50px auto;
+            line-height: 28px;
+        }
+
+        /* Categories */
+
+        .categories{
+            background: #121212;
+        }
+
+        .cat-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .cat-card{
+            background: #1a1a1a;
+            border-radius: 15px;
+            text-align: center;
+            padding: 30px 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid #333;
+        }
+
+        .cat-card:hover{
+            transform: translateY(-10px);
+            border: 2px solid white;
+            box-shadow: 0px 0px 7px white;
+        }
+
+        .cat-card img{
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .cat-card h3{
+            font-size: 22px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fff;
+        }
+
+        /* Why Us */
+
+        .why-us{
+            background: #0d0d0d;
+        }
+
+        .why-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card{
+            background: #1a1a1a;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+            transition: all 0.3s;
+        }
+
+        .why-card:hover{
+            border: 2px solid white;
+            box-shadow: 0px 0px 7px white;
+            transform: translateY(-8px);
+        }
+
+        .why-card h3{
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .why-card p{
+            font-size: 16px;
+            color: #aaa;
+            line-height: 24px;
+        }
+
+        /* Featured Products */
+
+        .products{
+            background: #121212;
+        }
+
+        .products-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card{
+            background: #1a1a1a;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            border: 1px solid #333;
+        }
+
+        .product-card:hover{
+            border: 2px solid white;
+            box-shadow: 0px 0px 7px white;
+        }
+
+        #product-card-hover{
+            height: 50px;
+            width: 160px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            margin-top: 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #product-card-hover:hover{            
+            background: #fff;
+        }
+
+        #product-card-hover:hover a{
+            color: #000;
+        }
+
+        #product-card-hover a{
+            color: white;
+            text-decoration: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .product-card img{
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-info{
+            padding: 20px;
+        }
+
+        .product-info h3{
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .product-info .price{
+            color: whitesmoke;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* About Showroom */
+
+        .about{
+            background: #0d0d0d;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .about-text{
+            flex: 1 1 400px;
+        }
+
+        .about-text h2{
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+        }
+
+        .about-text span{
+            font-family: cursive;
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+            background:transparent;
+            font-style: italic;
+            padding: 7px 12px;
+            background-color: black;
+            border-radius: 20%;
+            box-shadow: 1px 1px 5px white;
+        }
+
+        .about-text p{
+            font-size: 17px;
+            line-height: 28px;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        .about-img{
+            flex: 1 1 400px;
+            transition: all 0.3s;
+        }
+
+        .about-img:hover{
+            transform: scale(1.03);
+            border: 2px solid white;
+            box-shadow: 0px 0px 7px white;
+            border-radius: 15px;
+        }
+
+        .about-img img{
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0.5);
+            border: 2px solid #333;
+        }
+
+        #visit-btn-hover{
+            height: 60px;
+            width: 240px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #visit-btn-hover:hover{
+            background: #fff;
+        }
+
+        #visit-btn-hover:hover a{
+            color: #000;
+        }
+
+        #visit-btn a{
+            color: white;
+            text-decoration: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        /* Footer */
+
+        footer{
+            background: #000;
+            color: #888;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 16px;
+            border-top: 1px solid #222;
+        }
+
+        /* Mobile responsive */
+
+        @media (max-width: 991px) {
+            nav h1{
+                font-size: 28px;
+            }
+            .menu{
+                padding: 10px 15px;
+            }
+            .hero-content h2{
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu a{
+                display: none;
+            }
+            .menu p{
+                display: inline;
+                color: white;
+                font-size: 28px;
+                cursor: pointer;
+            }
+            .hero-content h2{
+                font-size: 42px;
+            }
+            .section-padding{
+                padding: 60px 5%;
+            }
+            .section-title{
+                font-size: 30px;
+            }
+            .section-desc{
+                font-size: 16px;
+            }
+            .about-text h2{
+                font-size: 28px;
+            }
+        }
+
+    </style>
+    
+</head>
+<body>
+
+    <nav>
+
+        <h1>MoNo-Electro</h1>
+            <div class="menu">
+
+                <a href="index.html" class="active">Home</a>
+                <a href="Shop.html">Shop</a>
+                <a href="our-story.html">Our-Story</a>
+                <a href="contact.html">Contact-Us</a>
+                <p onclick="toggleMenu()">☰</p>
+
+                <div class="mobile-menu" id="mobileMenu">
+
+                    <a href="index.html" class="active">Home</a>
+                    <a href="Shop.html">Shop</a>
+                    <a href="our-story.html">Our-Story</a>
+                    <a href="contact.html">Contact-Us</a>
+
+                </div>
+
+            </div>
+
+    </nav>
+
+    <section class="hero-sec">
+
+        <div class="hero-content">
+
+            <h2>Upgrade Your Home With <br>Smart Electronics</h2>
+            <p>Latest Mobiles, ACs, Fridges & Home Appliances. <br>Premium quality with Easy Installments. Visit our Karachi showroom today.</p>
+            <button class="Visit-btn"><a href="Shop.html">Visit Showroom</a></button>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 1: CATEGORIES - NEW IMAGES -->
+
+    <section class="section-padding categories">
+
+            <h2 class="section-title">Shop By <span>Category</span></h2>
+        <div class="cat-grid">
+
+            <div class="cat-card">
+                <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=100" alt="Mobile">
+                <h3>Mobiles</h3>
+            </div>
+
+            <div class="cat-card">
+                <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=100" alt="AC">
+                <h3>Air Conditioners</h3>
+            </div>
+
+            <div class="cat-card">
+                <img src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=100" alt="Fridge">
+                <h3>Refrigerators</h3>
+            </div>
+
+            <div class="cat-card">
+                <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=100" alt="TV">
+                <h3>LED TVs</h3>
+            </div>
+
+            <div class="cat-card">
+                <img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=100" alt="Washing Machine">
+                <h3>Washing Machines</h3>
+            </div>
+
+            <div class="cat-card">
+                <img src="https://images.unsplash.com/photo-1585238347366-e3f6a3b2e8e5?w=100" alt="Kitchen">
+                <h3>Kitchen Appliances</h3>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 2: WHY US -->
+
+    <section class="section-padding why-us">
+
+            <h2 class="section-title">Why Choose <span>MoNo-Electro</span></h2>
+        <div class="why-grid">
+
+            <div class="why-card">
+                <h3>Easy Installments</h3>
+                <p>0% markup on 6 to 12 months installment plans. No hidden charges.</p>
+            </div>
+
+            <div class="why-card">
+                <h3>Free Home Delivery</h3>
+                <p>Free and fast delivery all across Karachi within 24 hours.</p>
+            </div>
+
+            <div class="why-card">
+                <h3>1 Year Warranty</h3>
+                <p>Official brand warranty on every product. Full after-sales support.</p>
+            </div>
+
+            <div class="why-card">
+                <h3>Authorized Dealer</h3>
+                <p>100% original products from Samsung, Haier, Dawlance, LG & more.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 3: FEATURED PRODUCTS -->
+
+    <section class="section-padding products">
+
+            <h2 class="section-title"><span>Bestsellers</span> in Karachi</h2>
+            <p class="section-desc">Most selling products this month. Limited stock available.</p>
+        <div class="products-grid">
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500" alt="AC">
+                <div class="product-info">
+                    <h3>Haier 1.5 Ton DC Inverter AC</h3>
+                    <p class="price">Rs. 185,000</p>
+                    <button class="Visit-btn" style="height: 50px; width: 160px; margin-top: 0;" id="product-card-hover"><a href="Shop.html">Buy Now</a></button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=500" alt="Fridge">
+                <div class="product-info">
+                    <h3>Dawlance 14 Cubic Double Door</h3>
+                    <p class="price">Rs. 145,000</p>
+                    <button class="Visit-btn" style="height: 50px; width: 160px; margin-top: 0;" id="product-card-hover"><a href="Shop.html">Buy Now</a></button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500" alt="Mobile">
+                <div class="product-info">
+                    <h3>Samsung Galaxy S24 Ultra</h3>
+                    <p class="price">Rs. 420,000</p>
+                    <button class="Visit-btn" style="height: 50px; width: 160px; margin-top: 0;" id="product-card-hover"><a href="Shop.html">Buy Now</a></button>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SECTION 4: ABOUT SHOWROOM -->
+
+    <section class="section-padding about">
+
+        <div class="about-text">
+
+            <h2>Visit Our <span>Showroom</span></h2>
+            <p>Experience the largest collection of electronics under one roof. Our expert team will help you find the perfect product for your home with easy installment options.</p>
+            <p><b>Address:</b> Shop 12, Nazimabad No.3, Karachi<br>
+            <b>Timings:</b> Mon - Sun, 12PM to 10PM</p>
+            <button class="Visit-btn" id="visit-btn-hover"><a href="contact.html">Get Directions</a></button>
+
+        </div>
+
+        <div class="about-img">
+            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600" alt="Electronics Showroom">
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>© 2026 MoNo-Electro. All Rights Reserved. | Karachi, Pakistan</p>
+
+    </footer>
+
+    <!-- JS Menu Toggle -->
+
+    <script>
+
+        function toggleMenu(){
+            let menu = document.getElementById("mobileMenu");
+
+            if(menu.style.display === "flex"){
+                menu.style.display = "none";
+
+            } else {
+                menu.style.display = "flex";
+            }
+        }
+
+    </script>
+
+</body>
+</html>
